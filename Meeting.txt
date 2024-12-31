@@ -31,3 +31,35 @@ Manage resources like time or energy to keep going
 3. The game will have MAIN BOSS in every stage.
 4. The game will have various Resting and Recovery Station
 5. The game will have Shop where various ITEMS can be purchased
+
+DECISION TAKE:
+1. Features to be added:
+    Players
+        Move
+        communication
+        animation
+        sound
+        warning
+    Stages
+        level 1
+        level 2
+        level 3
+
+    Resources                       def main():
+
+        Fuel
+        Repair
+    Boss
+
+    Traps
+        Astroid
+        Comete
+    Defense
+        Shield
+    Weapon
+        Missile
+        Mega Bomb
+
+2. Every fucntion will return data. [No print fucntion to be used]
+
+                

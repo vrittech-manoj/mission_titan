@@ -11,11 +11,13 @@ if command =="Auto":
             #check the condition for identify the object            
             def object_detection(self):
                 if self.found == 1:
-                    return("Object Found!!!") 
+                    return True     # True: OBJECT has been detected
                 elif self.found ==2:
-                    return("Astroid Found!!!")
+                    print(self.found)
+                    return "astroid"
+                    print(self.found)
                 elif self.found==3:
-                    return("Commit Found!!!")         
+                    return "commet"         
             
             #Display object_detection Result
             def object_display(self): 
@@ -43,7 +45,7 @@ if command =="Auto":
                 
                 elif self.side==13:
                     return(f"The Direction bottom and Distance is: {self.distance} Miter")
-                
+                 
             
             #display direction result   
             def display(self): 
