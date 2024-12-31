@@ -1,0 +1,33 @@
+Date: Dec 31 2024
+
+AGENDA
+1. QA students will not be able to work in this project
+2. Sabai le gareko code kasri bujhane and last ma implementation garne hola bhanera ho mero chai
+3. Ani sabai ko code aafano aafano type ko huda socheko jasto project banla ta??? And socheko jasto output aaula ta ??? [SSS]
+4. Utility  ma user input use gare ra pani  garana Sakina cha 
+
+VISION OF THE PROJECT:
+-Simple,console based with limited obstacles 
+-minimum use of class and functions 
+-level differ from the easy to difficult stage
+
+My Vision: first we decide path and do necessary calculations and we check all instruments manually and take up from earth and defend all the problem coming in space like: asteroid, comet etc with different strategies with communicate in earth  if we cant face problem the mission will fail and again restart otherwise we will land safely and show congratulation message. and explore the moon and do lots of research.
+
+Game Idea:
+Our game has two main parts:
+Obstacle Part
+This is where players face challenges that make it hard to reach the goal. These challenges can include:
+Objects blocking the way.
+The goal of this part is to make the journey fun and challenging.
+Defense Part
+This is where players take action to beat the challenges and move forward. They can:
+Use tools or items to clear obstacles.
+Plan smart ways to get past problems.
+Use skills like quick thinking or fast reactions.
+Manage resources like time or energy to keep going
+
+1. The game will be able to run on various operating systems like android, ios, mac, windows, web, Linux.
+2. The game will be based in the distant future. The game will be based STAGE based. 
+3. The game will have MAIN BOSS in every stage.
+4. The game will have various Resting and Recovery Station
+5. The game will have Shop where various ITEMS can be purchased
