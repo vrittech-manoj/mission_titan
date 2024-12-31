@@ -17,7 +17,7 @@ class Repair:
     def energy_source(): # available energy source
         pass
     
-    def use_energy(): # to ti available energy source
+    def use_energy(): # to use available energy source
         pass
 
     
