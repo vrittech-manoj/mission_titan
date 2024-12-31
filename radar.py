@@ -1,32 +1,58 @@
 import random
 
-class Radar:
-    # it check is object ,astroid ,commet 
-    def __init__(self,found):
-        self.found = found
-        pass
+command =input("Enter the Command[Auto/Manual]")
+if command =="Auto":
     
-        #check the condition for identify the objects
-        if self.found == "1":
-            self.check_object()
-        elif self.found =="2":
-            self.check_astroid()
-        elif self.found=="3":
-            self.check_commit()
+        class Radar_auto:
 
-    def check_object(self):
-        print("Object Functions Call")
-        pass
+            def __init__(self): 
+                self.found = random.randint(1,3)        
+
+            #check the condition for identify the object            
+            def object_detection(self):
+                if self.found == 1:
+                    return("Object Found!!!") 
+                elif self.found ==2:
+                    return("Astroid Found!!!")
+                elif self.found==3:
+                    return("Commit Found!!!")         
+            
+            #Display object_detection Result
+            def object_display(self): 
+                print(self.object_detection())
+            
+
+        class Measure(Radar_auto):
+        
+            def __init__(self):
+                self.distance =random.randint(1,1000)
+                self.side =random.randint(10,13)
+                Radar_auto.__init__(self)  
+                
+        
+            
+            def direction(self):
+                if self.side==10:
+                    return(f"The Direction Right and Distance is: {self.distance} Miter")
+                
+                elif self.side==11:
+                    return (f"The Direction Left and Distance is: {self.distance} Miter")
+                    
+                elif self.side==12:
+                    return(f"The Direction top and Distance is: {self.distance} Miter")
+                
+                elif self.side==13:
+                    return(f"The Direction bottom and Distance is: {self.distance} Miter")
+                
+            
+            #display direction result   
+            def display(self): 
+                self.object_display()
+                print(self.direction())
+        
+        m =Measure()
+        m.display()
     
-    def check_astroid(self):
-        print("Astroid Functions call")
-        pass
-    
-    def check_commit(self):
-        print("Commit Functions call")
-        pass
-    
-    
-found =random.randint(1,3) #random number ge
-rd =Radar(str(found)) #create a object of Radar Class
+else:
+    print("!!!Wrong Command!!!")
 
