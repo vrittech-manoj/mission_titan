@@ -1,6 +1,6 @@
 # class Fuel:
     
-#     def __init__(self,status): #Fuel class
+#    def __init__(self,status): #Fuel class
 #           self.status =status
     
 #     def check_fuel(self): #Check fuel Status
@@ -19,6 +19,8 @@
     
 #     def use_energy(): # to use available energy source
 #         pass
+
+
 class Fuel:
     def __init__(self, capacity, current_level):  # Initialize the Fuel class
         self.capacity = capacity  # Total fuel capacity
