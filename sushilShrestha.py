@@ -19,6 +19,12 @@ class Fuel:
         self.current_level -= amount
         return "successful"
 
+
+# f =Fuel(1000,900)
+# print(f.check_fuel())
+# print(f.refuel(200))
+# print(f.refuel(100))
+
 # Main program just for try and easy for developer not use in our project
 def main():
     print("<<<----Fuel System---->>>")
