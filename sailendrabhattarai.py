@@ -1,3 +1,4 @@
+
 import time #Import time
 
 class Earth:
