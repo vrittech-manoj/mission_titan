@@ -1,131 +1,124 @@
 import time
-import random
+from data_provider import (
+    get_inside_temperature,
+    get_inside_humidity,
+    get_fuel_level,
+    get_oxygen_level,
+    get_energy_level,
+    get_machinery_status,
+    get_outside_temperature,
+    get_gravity,
+    get_aerodynamics,
+    get_velocity,
+    _check_solar_flare,
+)
 
 class Utilities:
     def __init__(self):
         # Initialize resources and conditions
-        self.resources_data = {}  # Stores spaceship resources
+        self.resources_data = {}
         self.inside_conditions = {}
         self.outside_conditions = {}
         print("Utilities Initialized.")
 
     def generate_conditions(self, time_passed=None):
         if time_passed is None:
-            # Initial setup for conditions
-            self.inside_conditions = {
-                "temperature": random.uniform(18, 25),  # In degrees Celsius
-                "humidity": random.uniform(30, 70),  # In percentage
-                "fuel": 100,  # In percentage
-                "oxygen": 100,  # In percentage
-                "energy": 100,  # In percentage
-                "machinery_status": random.choice(["operational", "minor fault", "major fault"])
+            # Initial setup
+            return {
+                "inside": self._initialize_inside_conditions(),
+                "outside": self._initialize_outside_conditions(),
             }
-
-            self.outside_conditions = {
-                "temperature": random.uniform(10, 30),  # Initial temperature in space
-                "gravity": random.uniform(0.8, 1),  # Near-Earth gravity, say between 0.8-1.0 G
-                "aerodynamics": random.choice(["Stable", "Unstable"]),  # Initial status
-                "velocity": random.randint(10000, 15000),  # Initial velocity in km/h
-            }
-
-            print("Initial Conditions Generated.")
-            print("Inside Conditions:", self.inside_conditions)
-            print("Outside Conditions:", self.outside_conditions)
-
         else:
-            # Update existing conditions dynamically based on time_passed (in seconds)
-            self._update_inside_conditions(time_passed)
-            self._update_outside_conditions(time_passed)
+            # Dynamic updates
+            return {
+                "inside": self.update_inside_conditions(time_passed),
+                "outside": self.update_outside_conditions(time_passed),
+            }
 
-            # Periodically log conditions
-            self._log_conditions()
+    def _initialize_inside_conditions(self):
+        self.inside_conditions = {
+            "temperature": get_inside_temperature(),
+            "humidity": get_inside_humidity(),
+            "fuel": get_fuel_level(),
+            "oxygen": get_oxygen_level(),
+            "energy": get_energy_level(),
+            "machinery_status": get_machinery_status(),
+        }
+        return self.inside_conditions
 
-    def _update_inside_conditions(self, time_passed):
-        # Gradual decrement of critical resources
-        decrement_rate = 0.03 * time_passed  # Base decrement rate
+    def _initialize_outside_conditions(self):
+        self.outside_conditions = {
+            "temperature": get_outside_temperature(),
+            "gravity": get_gravity(),
+            "aerodynamics": get_aerodynamics(),
+            "velocity": get_velocity(),
+        }
+        return self.outside_conditions
+
+    def update_inside_conditions(self, time_passed):
+        decrement_rate = 0.03 * time_passed
         for key in ["fuel", "oxygen", "energy"]:
-            self.inside_conditions[key] = max(0, self.inside_conditions[key] - random.uniform(decrement_rate, 1.5 * decrement_rate))
-
-        # Handle temperature and humidity
-        min_temp = 15  # Minimum inside temperature
-        self.inside_conditions["temperature"] = max(
-            min_temp, self.inside_conditions["temperature"] - random.uniform(0.1, 0.5) * time_passed / 60
+            self.inside_conditions[key] = max(
+                0,
+                self.inside_conditions[key] - decrement_rate
+            )
+        self.inside_conditions["temperature"] = self._adjust_temperature(
+            self.inside_conditions["temperature"], time_passed
         )
-        self.inside_conditions["humidity"] = max(
-            20, self.inside_conditions["humidity"] - random.uniform(0.1, 0.3) * time_passed / 60
+        self.inside_conditions["humidity"] = self._adjust_humidity(
+            self.inside_conditions["humidity"], time_passed
         )
+        self._check_inside_alerts()
+        return self.inside_conditions
 
-        # Alerts for critical levels
+    def update_outside_conditions(self, time_passed):
+        self.outside_conditions["velocity"] = min(
+            15000,
+            self.outside_conditions["velocity"] + time_passed * 100,
+        )
+        self.outside_conditions["gravity"] = max(
+            0,
+            self.outside_conditions["gravity"] - 0.01 * time_passed,
+        )
+        self.outside_conditions["aerodynamics"] = self._adjust_aerodynamics()
+        self.outside_conditions["temperature"] = self._handle_temperature_change(
+            self.outside_conditions["temperature"], time_passed
+        )
+        if _check_solar_flare():
+            self.handle_solar_flare()
+        return self.outside_conditions
+
+    def _adjust_temperature(self, temperature, time_passed):
+        return max(15, temperature - 0.1 * time_passed)
+
+    def _adjust_humidity(self, humidity, time_passed):
+        return max(20, humidity - 0.05 * time_passed)
+
+    def _adjust_aerodynamics(self):
+        if self.outside_conditions["velocity"] > 12000:
+            return "Turbulent"
+        return "Stable"
+
+    def _handle_temperature_change(self, temperature, time_passed):
+        return max(-100, temperature - 0.5 * time_passed)
+
+    def handle_solar_flare(self):
+        self.inside_conditions["energy"] = max(
+            0,
+            self.inside_conditions["energy"] - 5,
+        )
+        print("Warning: Solar flare detected!")
+
+    def _check_inside_alerts(self):
         if self.inside_conditions["fuel"] < 20:
             print("ALERT: Fuel is critically low!")
         if self.inside_conditions["oxygen"] < 30:
             print("ALERT: Oxygen is critically low!")
         if self.inside_conditions["energy"] < 10:
-            print("ALERT: Energy levels are dangerously low!")
+            print("ALERT: Energy is critically low!")
 
-    def _update_outside_conditions(self, time_passed):
-        # Update velocity dynamically
-        gravity_threshold = 1  # 1G threshold for reference
-        if self.outside_conditions["velocity"] < gravity_threshold * 1000:
-            self.outside_conditions["velocity"] += random.uniform(50, 150) * time_passed / 60
-        else:
-            self.outside_conditions["velocity"] = gravity_threshold * 1000
-
-        # Update gravity and aerodynamics
-        self.outside_conditions["gravity"] = max(
-            0, self.outside_conditions["gravity"] - random.uniform(0.01, 0.03) * time_passed / 60
-        )
-        if self.outside_conditions["velocity"] > 12000 and self.outside_conditions["gravity"] < 0.5:
-            self.outside_conditions["aerodynamics"] = "Turbulent"
-        elif self.outside_conditions["velocity"] > 15000:
-            self.outside_conditions["aerodynamics"] = "Extreme Turbulence"
-        else:
-            self.outside_conditions["aerodynamics"] = random.choice(["Stable", "Unstable"])
-
-        # Simulate cooling or heating effect of outer space
-        self.outside_conditions["temperature"] -= random.uniform(0.5, 2.0) * time_passed / 60
-
-        # Possible external events: Solar flare
-        if random.choice([True, False]):  # 50% chance of a solar flare
-            print("Warning: Solar flare detected! Energy consumption spiked.")
-            self.inside_conditions["energy"] -= random.uniform(1, 5)
-
-    def _log_conditions(self):
-        with open("conditions_log.txt", "a") as log_file:
-            log_file.write(
-                f"Time: {time.ctime()} | Inside: {self.inside_conditions} | Outside: {self.outside_conditions}\n"
-            )
-
-    def reset_conditions(self):
-        # Reset to safe default conditions
-        self.inside_conditions.update({
-            "fuel": 100,
-            "oxygen": 100,
-            "energy": 100,
-            "temperature": random.uniform(18, 25),
-            "humidity": random.uniform(30, 70),
-        })
-        print("Conditions reset to safe levels.")
-
-# Example usage:
+# Example usage
 utilities = Utilities()
-utilities.generate_conditions()
-for i in range(10):  # Simulate updates over time
-    time.sleep(60)  # Simulate time passing
-    utilities.generate_conditions(time_passed=2)
-    
-    
-
-
-
-# class DebrisTracking:
-#     def __init__(self):
-#         self.debris_list = []  # Track detected debris
-#         print("Debris Tracking Initialized.")
-
-#     def detect_debris(self):
-#         pass
-
-#     def clear_debris(self):
-#         pass
-
+print(utilities.generate_conditions())
+time.sleep(1)
+print(utilities.generate_conditions(time_passed=2))
