@@ -111,16 +111,13 @@ class Utilities:
         if self.inside_conditions["energy"] < 10:
             print("ALERT: Energy is critically low!")
 
-# Create an instance of Utilities
 utilities = Utilities()
 
-# Step 1: Initialize conditions
 initial_conditions = utilities.generate_conditions()
 print("\nInitial Conditions:")
 print("Inside:", initial_conditions["inside"])
 print("Outside:", initial_conditions["outside"])
 
-# Step 2: Simulate updates over time
 time_intervals = [1, 2, 3]  # Simulated time intervals in seconds
 for interval in time_intervals:
     print(f"\nUpdating conditions after {interval} seconds:")
