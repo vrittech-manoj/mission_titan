@@ -4,8 +4,11 @@ class Fuel:
         self.current_level = current_level  # Current fuel level
 
     def check_fuel(self):  # Check fuel percentage
-        fuel_percentage = (self.current_level / self.capacity)*100
-        return fuel_percentage #Current fuel level
+        fuel_percentage = (self.current_level / self.capacity) * 100
+        return round(fuel_percentage)  # Current fuel level in percentage
+    
+    def level_fuel(self):  #check fuel level
+        return self.current_level
 
     def refuel(self, amount):  # Refuel the tank
         if amount + self.current_level > self.capacity:
