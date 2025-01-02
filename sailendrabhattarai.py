@@ -1,4 +1,5 @@
 import time
+import datetime
 import random
 
 
@@ -53,10 +54,12 @@ class VehicleConditionCheck:
         if self.warnings == 0:
             print("Your vehicle is in excellent condition!")
             print("it is Ready to launch")
+            time.sleep(3)
             for i in range(10,0,-1):
                 print(i)
                 time.sleep(1)
-            print("Titan has Launched Successfully....")
+                current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') # It gives current time
+            print(f"Titan has Launched Successfully in {current_time}....")
             return True
         elif self.warnings > 0:
             print(f"Your vehicle has {self.warnings} issues. Please address them.")
