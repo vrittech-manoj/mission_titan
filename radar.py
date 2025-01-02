@@ -13,7 +13,9 @@ if command =="Auto":
                 if self.found == 1:
                     return("Object Found!!!") 
                 elif self.found ==2:
+                    print(self.found)
                     return("Astroid Found!!!")
+                    print(self.found)
                 elif self.found==3:
                     return("Commit Found!!!")         
             
