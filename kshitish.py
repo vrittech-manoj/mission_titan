@@ -15,7 +15,6 @@ from data_provider import (
 
 class Utilities:
     def __init__(self):
-        # Initialize resources and conditions
         self.resources_data = {}
         self.inside_conditions = {}
         self.outside_conditions = {}
@@ -23,13 +22,11 @@ class Utilities:
 
     def generate_conditions(self, time_passed=None):
         if time_passed is None:
-            # Initial setup
             return {
                 "inside": self._initialize_inside_conditions(),
                 "outside": self._initialize_outside_conditions(),
             }
         else:
-            # Dynamic updates
             return {
                 "inside": self.update_inside_conditions(time_passed),
                 "outside": self.update_outside_conditions(time_passed),
@@ -46,6 +43,7 @@ class Utilities:
         }
         return self.inside_conditions
 
+
     def _initialize_outside_conditions(self):
         self.outside_conditions = {
             "temperature": get_outside_temperature(),
@@ -59,8 +57,7 @@ class Utilities:
         decrement_rate = 0.03 * time_passed
         for key in ["fuel", "oxygen", "energy"]:
             self.inside_conditions[key] = max(
-                0,
-                self.inside_conditions[key] - decrement_rate
+                0, self.inside_conditions[key] - decrement_rate
             )
         self.inside_conditions["temperature"] = self._adjust_temperature(
             self.inside_conditions["temperature"], time_passed
@@ -73,12 +70,10 @@ class Utilities:
 
     def update_outside_conditions(self, time_passed):
         self.outside_conditions["velocity"] = min(
-            15000,
-            self.outside_conditions["velocity"] + time_passed * 100,
+            15000, self.outside_conditions["velocity"] + time_passed * 100
         )
         self.outside_conditions["gravity"] = max(
-            0,
-            self.outside_conditions["gravity"] - 0.01 * time_passed,
+            0, self.outside_conditions["gravity"] - 0.01 * time_passed
         )
         self.outside_conditions["aerodynamics"] = self._adjust_aerodynamics()
         self.outside_conditions["temperature"] = self._handle_temperature_change(
@@ -104,8 +99,7 @@ class Utilities:
 
     def handle_solar_flare(self):
         self.inside_conditions["energy"] = max(
-            0,
-            self.inside_conditions["energy"] - 5,
+            0, self.inside_conditions["energy"] - 5
         )
         print("Warning: Solar flare detected!")
 
@@ -117,8 +111,17 @@ class Utilities:
         if self.inside_conditions["energy"] < 10:
             print("ALERT: Energy is critically low!")
 
-# Example usage
 utilities = Utilities()
-print(utilities.generate_conditions())
-time.sleep(1)
-print(utilities.generate_conditions(time_passed=2))
+
+initial_conditions = utilities.generate_conditions()
+print("\nInitial Conditions:")
+print("Inside:", initial_conditions["inside"])
+print("Outside:", initial_conditions["outside"])
+
+time_intervals = [1, 2, 3]  # Simulated time intervals in seconds
+for interval in time_intervals:
+    print(f"\nUpdating conditions after {interval} seconds:")
+    updated_conditions = utilities.generate_conditions(time_passed=interval)
+    print("Inside:", updated_conditions["inside"])
+    print("Outside:", updated_conditions["outside"])
+    time.sleep(1)  # Simulate waiting time for more realistic output
