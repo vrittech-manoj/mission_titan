@@ -33,33 +33,34 @@ Manage resources like time or energy to keep going
 5. The game will have Shop where various ITEMS can be purchased
 
 DECISION TAKE:
-1. Features to be added:
-    Players
+1. Features to be added (Members working on it):
+    SpaceShip (Kshitish, Sudarshan, Ganesh)
         Move
         communication
         animation
         sound
         warning
-    Stages
+    Stages  (Sailendra, Kiran, Roshan)
         level 1
         level 2
         level 3
 
-    Resources                       def main():
+    Resources   (Shushil S., Pashupati, )                 
 
         Fuel
         Repair
     Boss
 
-    Traps
+    Traps      (Pukar, Prawesh)
         Astroid
         Comete
-    Defense
+    Defense     (Pratima, Sushil B.)
         Shield
-    Weapon
+    Weapon 
         Missile
         Mega Bomb
 
 2. Every fucntion will return data. [No print fucntion to be used]
-
+3. TEAM DIVISION:
+    SpaceShip
                 

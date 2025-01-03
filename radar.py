@@ -15,6 +15,7 @@ if command =="Auto":
                 elif self.found ==2:
                     print(self.found)
                     return "astroid"
+                    return("Astroid Found!!!")
                     print(self.found)
                 elif self.found==3:
                     return "commet"         
