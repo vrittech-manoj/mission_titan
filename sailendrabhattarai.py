@@ -1,70 +1,133 @@
-import time #Import time
+import time
+import datetime
+import random
 
-class Earth:
-    def Device_Check(self):
-        print("Welcome to the Vehicle Condition Check!\n")
 
-        # Check fuel
-        fuel = input("Is the engine oil level adequate? (yes/no): ").lower()
+class VehicleConditionCheck:
+    def __init__(self):
+        self.warnings = 0
+
+    def fuel(self):
+        fuel = input("Is the engine oil level high? (yes/no): ").lower()
         if fuel != 'yes':
             print("Warning: Low engine oil. Check or replace the oil !!!")
-    
-        # Check battery condition
-        battery = input("Is the battery have full Charge? (yes/no): ").lower()
+            self.warnings += 1
+
+    def battery(self):
+        battery = input("Is the battery charged? (yes/no): ").lower()
         if battery != 'yes':
-            print("Warning: Battery may need to be Charge !!!")
-        # Check power system
-        PowerSystem=input("Is the Power System Working Automatically? (yes/no): ").lower()
-        if PowerSystem!='yes':
+            print("Warning: Battery may need to be charged !!!")
+            self.warnings += 1
+
+    def power(self):
+        power = input("Is the Power System working properly? (yes/no): ").lower()
+        if power != 'yes':
             print("Power System Failure !!!")
-        #check communication system
-        Communication=input("Is the Communication System Working Properly? (yes/no): ").lower()
-        if Communication!='yes':
+            self.warnings += 1
+
+    def communication(self):
+        communication = input("Is the Communication System working properly? (yes/no): ").lower()
+        if communication != 'yes':
             print("Check Communication System...")
-        #check life support system
-        LifeSupportSystem=input("Check Life Support System? (yes/no): ").lower()
-        if LifeSupportSystem!='yes':
-            print("Check Life Support System:..")
-        #check scientific instruments
-        ScientificInstruments=input("Is Scientific Instruments Working Properly? (yes/no): ").lower()
-        if ScientificInstruments!='yes':
-            print("Scientific System Not Working properly....")
-        #check backup systems
-        BackupSystems=input("Does your Backup System Working Properly? (yes/no): ").lower()
-        if BackupSystems!='yes':
+            self.warnings += 1
+
+    def life_support(self):
+        life_support = input("Is Life Support System working properly? (yes/no): ").lower()
+        if life_support != 'yes':
+            print("Check Life Support System...")
+            self.warnings += 1
+
+    def scientific(self):
+        scientific = input("Are Scientific Instruments working properly? (yes/no): ").lower()
+        if scientific != 'yes':
+            print("Scientific instruments not working properly...")
+            self.warnings += 1
+
+    def backup(self):
+        backup = input("Is the Backup System working properly? (yes/no): ").lower()
+        if backup != 'yes':
             print("Check Backup Systems...")
-    
-    
+            self.warnings += 1
+
+    def vehicle_condition(self):
         print("\nVehicle Condition Summary: ")
-    
-        # Check overall condition based on the responses
-        warnings = 0
-        for condition in [fuel, battery,PowerSystem,Communication,LifeSupportSystem,ScientificInstruments,BackupSystems]:
-            if condition != 'yes':
-                warnings += 1
-    
-        if warnings == 0:
+        if self.warnings == 0:
             print("Your vehicle is in excellent condition!")
-            print("Titan is Ready to Launch")
-            time.sleep(5)
-
-        # Countdown from 10 to 1
-            for i in range(10, 0, -1):
+            print("it is Ready to launch")
+            time.sleep(3)
+            for i in range(10,0,-1):
                 print(i)
-                time.sleep(1)  # Pause for 1 second between numbers
+                time.sleep(1)
+                current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') # It gives current time
+            print(f"Titan has Launched Successfully in {current_time}....")
+            return True
+        elif self.warnings > 0:
+            print(f"Your vehicle has {self.warnings} issues. Please address them.")
+            time.sleep(3)
+            print("Mission Terminate due to Some Problem....")
+            exit()
+            return False
 
-            print("Congratulations!! Titan Have Launched Successfully: ")
-            # continue
 
-        elif warnings <= 3:
-            print("Your vehicle is in good condition, but some minor issues need attention.")
+class SurvivalChallenge:
+    def __init__(self, player_name, time_limit=60):
+        self.player_name = player_name
+        self.time_limit = time_limit
+        self.time_left = time_limit
+        self.level_started = False
+
+    def welcome_page(self):
+        print(f"\nWelcome {self.player_name} to the Survival Challenge!")
+        print(f"Your task: Survive for {self.time_limit} seconds.")
+        print("Random events will happen during this time. Get ready!")
+
+    def random_event(self):
+        events = ["An asteroid appears!", "A sudden meteor shower!", "You find a power-up!", "A monster spawns!"]
+        return random.choice(events)
+
+    def start(self):
+        print(f"\nStarting the survival challenge... Time Limit: {self.time_limit} seconds")
+        self.level_started = True
+        start_time = time.time()
+
+        while self.time_left > 0:
+            current_time = time.time()
+            self.time_left = self.time_limit - int(current_time - start_time)
+
+            # Trigger a random event every 5 seconds
+            if self.time_left % 5 == 0 and self.time_left != 0:
+                print(f"Time left: {self.time_left} seconds. Event: {self.random_event()}")
+
+            time.sleep(1)
+
+        self.end()
+
+    def end(self):
+        print(f"\nTime's up! Well done {self.player_name}!")
+        if self.time_left <= 0:
+            print("You survived the challenge!")
+            print("Congratulations!!! Titan Has Launched Successfully...")
         else:
-            print("Your vehicle has several issues and needs professional inspection.")
-    
-# class Speed:
-#     def speed(self):
+            print("You didn't survive, try again!")
 
 
-a=Earth()
-a.Device_Check()
-# a.Earth_launch()
+# Main Execution:
+if __name__ == "__main__":
+    player_name = input("Enter your name: ")
+
+    # Vehicle Condition Check object
+    print("\n--- Vehicle Condition Check ---")
+    vehicle = VehicleConditionCheck()
+    vehicle.fuel()
+    vehicle.battery()
+    vehicle.power()
+    vehicle.communication()
+    vehicle.life_support()
+    vehicle.scientific()
+    vehicle.backup()
+    vehicle.vehicle_condition()
+
+    # Survival Challenge object
+    survival = SurvivalChallenge(player_name)
+    survival.welcome_page()
+    survival.start()

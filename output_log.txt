@@ -1,0 +1,15 @@
+Radar detected: No Threat
+Taking evasive action to avoid: No Threat
+Evasion completed by moving north.
+Radar detected: Asteroid
+Taking evasive action to avoid: Asteroid
+Evasion completed by moving west.
+Radar detected: No Threat
+Taking evasive action to avoid: No Threat
+Evasion completed by moving north.
+Radar detected: No Threat
+Taking evasive action to avoid: No Threat
+Evasion completed by moving east.
+Radar detected: Alien Ship
+Taking evasive action to avoid: Alien Ship
+Evasion completed by moving east.
