@@ -9,6 +9,8 @@ class Shield:
         if self.health <= 0:
             print("Shield is down! Repair needed!")
             self.health = 0
+        else:
+            print(f"Shield absorbed {damage} damage.")
 
 class Comet:
     def __init__(self, velocity, size, destruction, position_x, position_y):
@@ -22,7 +24,7 @@ class Comet:
         return Comet(
             velocity=random.randint(22000, 45000),
             size=random.randint(20, 62),
-            destruction=random.randint(50, 200),
+            destruction=random.randint(20, 150),
             position_x=random.randint(0, 800),
             position_y=random.randint(0, 600),
         )
@@ -44,15 +46,29 @@ class Weapon:
 shield = Shield(health=100)
 weapon = Weapon(damage=75)
 
-# Generate a random comet
-comet = Comet.generate_random()
-print(f"A comet is approaching! Destruction: {comet.destruction}")
+while True: # Game Loop
+    # Generate a random comet
+    comet = Comet.generate_random()
+    print(f"\nA comet is approaching! Destruction: {comet.destruction}")
+    print(f"Current shield health: {shield.health}%")
+# 
+    # User input for action
+    while True:
+        action = input("Choose your action (attack/shield): ").lower()
+        if action in ("attack", "shield"):
+            break
+        else:
+            print("Invalid input. Please enter 'attack', 'shield'.")
 
-# Decide to use weapon or shield
-if comet.destruction <= weapon.damage:
-    if weapon.fire(comet):
-        print("Threat neutralized with weapons!")
-else:
-    print("Using shield to absorb the hit.")
-    shield.absorb_hit(comet.destruction)
-    print(f"Shield health remaining: {shield.health}")
+    if action == "attack":
+        if weapon.fire(comet):
+            print("Threat neutralized with weapons!")
+        else:
+            print("Weapon was ineffective!")
+    elif action == "shield":
+        shield.absorb_hit(comet.destruction)
+        print(f"Shield health remaining: {shield.health}%")
+
+    if shield.health <= 0:
+        print("Game Over! Your shield has been destroyed.")
+        break #exit the game loop
